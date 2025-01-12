@@ -1,0 +1,90 @@
+#include <iostream>
+#include <vector>
+#include <stdexcept> // For exception handling
+
+using namespace std;
+
+template <typename T>
+class VectorContainer {
+private:
+    vector<T> elements;  // Vector to hold elements of type T
+
+public:
+    // Constructor to create a vector of given size with initial value
+    VectorContainer(int size, T initialValue) {
+        elements.resize(size, initialValue);
+    }
+
+    // Function to modify the value of a given element (index starts from 0)
+    void updateElement(int index, T newValue) {
+        if (index < 0 || index >= elements.size()) {
+            throw out_of_range("Index out of range");
+        }
+        elements[index] = newValue;
+    }
+
+    // Function to multiply the vector by a scalar value
+    void scaleByScalar(T scalar) {
+        for (int i = 0; i < elements.size(); ++i) {
+            elements[i] *= scalar;
+        }
+    }
+
+    // Function to display the vector in the form (10, 20, 30, ...)
+    void displayVector() const {
+        cout << "(";
+        for (int i = 0; i < elements.size(); ++i) {
+            cout << elements[i];
+            if (i != elements.size() - 1) {
+                cout << ", ";
+            }
+        }
+        cout << ")" << endl;
+    }
+
+    // Function to return the size of the vector
+    int getSize() const {
+        return elements.size();
+    }
+};
+
+int main() {
+    try {
+        // Create a VectorContainer of integers with 5 elements, all initialized to 10
+        VectorContainer<int> intVector(5, 10);
+
+        cout << "Original vector: ";
+        intVector.displayVector();
+
+        // Modify the value of the 2nd element (index 1)
+        intVector.updateElement(1, 20);
+        cout << "After modifying element at index 1: ";
+        intVector.displayVector();
+
+        // Multiply the vector by a scalar value
+        intVector.scaleByScalar(2);
+        cout << "After multiplying by 2: ";
+        intVector.displayVector();
+
+        // Create a VectorContainer of doubles with 4 elements, all initialized to 5.5
+        VectorContainer<double> doubleVector(4, 5.5);
+
+        cout << "Original double vector: ";
+        doubleVector.displayVector();
+
+        // Modify the value of the 3rd element (index 2)
+        doubleVector.updateElement(2, 7.5);
+        cout << "After modifying element at index 2: ";
+        doubleVector.displayVector();
+
+        // Multiply the double vector by a scalar value
+        doubleVector.scaleByScalar(1.5);
+        cout << "After multiplying by 1.5: ";
+        doubleVector.displayVector();
+
+    } catch (const exception& e) {
+        cout << "Error: " << e.what() << endl;
+    }
+
+    return 0;
+}
